@@ -253,19 +253,34 @@ export async function routeCapture(capture, answers, store) {
         const budgets = store.budgets || []
         if (budgets.length > 0) {
           const activeBudget = budgets[0]
-          store.updateBudget(activeBudget.id, {
-            expenses: [...(activeBudget.expenses || []), {
+          const addFn = store.addBudgetExpense || store.updateBudget
+          if (store.addBudgetExpense) {
+            store.addBudgetExpense(activeBudget.id, {
               id: `exp_${Date.now()}`,
               descricao: desc,
               valor: amount,
-              categoria: interpretation.budgetCategory || 7, // default: transportes/catering
+              categoria: interpretation.budgetCategory || 7,
               estado: 'pendente',
               origem: 'capture',
               captureId: capture.id,
               data: new Date().toISOString().split('T')[0],
               comprovativo: capture.type === 'image' ? capture.id : '',
-            }]
-          })
+            })
+          } else {
+            store.updateBudget(activeBudget.id, {
+              expenses: [...(activeBudget.expenses || []), {
+                id: `exp_${Date.now()}`,
+                descricao: desc,
+                valor: amount,
+                categoria: interpretation.budgetCategory || 7,
+                estado: 'pendente',
+                origem: 'capture',
+                captureId: capture.id,
+                data: new Date().toISOString().split('T')[0],
+                comprovativo: capture.type === 'image' ? capture.id : '',
+              }]
+            })
+          }
           results.push({ module: 'recibo', label: `Orçamento — ${amount ? amount + '€' : 'valor pendente'}`, success: true })
         } else {
           results.push({ module: 'recibo', label: 'Orçamento (sem orçamento activo)', success: true })

@@ -31,8 +31,7 @@ function minToTimeStr(min) {
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`
 }
 
-// ── PDF generation via jsPDF ──────────────────────────────────────
-import { jsPDF } from 'jspdf'
+// ── PDF generation via jsPDF (lazy) ──────────────────────────────
 
 // Colors used in the PDF
 const PDF_COLORS = {
@@ -133,7 +132,8 @@ function drawTableRow(doc, y, cols, values, rowIdx, margin = 15, rowH = 7) {
 }
 
 // ── MAIN PDF EXPORT ───────────────────────────────────────────────
-function exportCallsheetPDF({ projectName, dayData, dayIndex, callTime, engineDay, sunTimes, dayScenes, parsedScripts, dayLocation, team, weather, deptNotes, walkieChannels, catering }) {
+async function exportCallsheetPDF({ projectName, dayData, dayIndex, callTime, engineDay, sunTimes, dayScenes, parsedScripts, dayLocation, team, weather, deptNotes, walkieChannels, catering }) {
+  const { jsPDF } = await import('jspdf')
   const TURNAROUND = 10
   const dayNum = dayData?.dayNumber || (dayIndex + 1)
   const date = dayData?.date || ''

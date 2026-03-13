@@ -832,6 +832,11 @@ export const useStore = create(
       // ── Acções: Orçamento Profissional ───────────────────────
       addBudget: (b) => set(s => ({ budgets: [...s.budgets, b] })),
       updateBudget: (id, patch) => set(s => ({ budgets: s.budgets.map(b => b.id === id ? { ...b, ...patch } : b) })),
+      addBudgetExpense: (budgetId, expense) => set(s => ({
+        budgets: s.budgets.map(b => b.id === budgetId
+          ? { ...b, expenses: [...(b.expenses || []), expense] }
+          : b),
+      })),
       removeBudget: (id) => set(s => ({ budgets: s.budgets.filter(b => b.id !== id) })),
       addSupplier: (sup) => set(st => ({ suppliers: [...st.suppliers, sup] })),
       updateSupplier: (id, patch) => set(st => ({ suppliers: st.suppliers.map(s => s.id === id ? { ...s, ...patch } : s) })),

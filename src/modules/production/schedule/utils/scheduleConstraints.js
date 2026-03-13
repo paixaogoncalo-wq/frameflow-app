@@ -10,7 +10,7 @@
 import { capacidadeSegura, calcMoveTime } from './sceneDuration.js'
 import { validateDay } from './scheduleRules.js'
 
-const MAX_BACKTRACK_ATTEMPTS = 50
+const MAX_BACKTRACK_ATTEMPTS = 200
 const MAX_SWAP_DEPTH = 3
 
 // ── Verificar restrições de um grupo num dia ──────────────────────
