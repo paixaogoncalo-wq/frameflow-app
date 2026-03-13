@@ -10,7 +10,7 @@
 
 .drawer {
   position: relative;
-  width: 520px; max-width: 96vw; max-height: 88vh;
+  width: 390px; max-width: 90vw; max-height: 66vh;
   background: rgba(30, 34, 42, 0.70);
   backdrop-filter: blur(32px) saturate(180%);
   -webkit-backdrop-filter: blur(32px) saturate(180%);

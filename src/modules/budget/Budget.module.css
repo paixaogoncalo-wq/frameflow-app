@@ -932,7 +932,7 @@
 }
 .drawer {
   position: relative;
-  width: 580px; max-width: 96vw; max-height: 88vh;
+  width: 435px; max-width: 90vw; max-height: 66vh;
   border-radius: 28px;
   background: rgba(30, 34, 42, 0.70);
   backdrop-filter: blur(32px) saturate(180%);
@@ -1368,7 +1368,7 @@
 }
 .teamSyncDrawer {
   position: relative;
-  width: 580px; max-width: 96vw; max-height: 88vh;
+  width: 435px; max-width: 90vw; max-height: 66vh;
   border-radius: 28px;
   background: rgba(30, 34, 42, 0.70);
   backdrop-filter: blur(32px) saturate(180%);

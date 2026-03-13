@@ -776,9 +776,9 @@
 
 .drawer {
   position: relative;
-  width: 620px;
-  max-width: 96vw;
-  max-height: 88vh;
+  width: 465px;
+  max-width: 90vw;
+  max-height: 66vh;
   overflow-y: auto;
   background: rgba(30, 34, 42, 0.70);
   backdrop-filter: blur(32px) saturate(180%);

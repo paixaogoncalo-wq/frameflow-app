@@ -118,7 +118,7 @@ export function IconContainer({ icon, color = '#10b981', size = 48, glow = false
 }
 
 // ── GlassModal — overlay modal com backdrop blur ──
-export function GlassModal({ isOpen, onClose, children, accentColor = '#10b981', title, icon, width = 520 }) {
+export function GlassModal({ isOpen, onClose, children, accentColor = '#10b981', title, icon, width = 390 }) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -142,7 +142,7 @@ export function GlassModal({ isOpen, onClose, children, accentColor = '#10b981',
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            style={{ width: '90%', maxWidth: width, maxHeight: '85vh', overflowY: 'auto' }}
+            style={{ width: '90%', maxWidth: width, maxHeight: '64vh', overflowY: 'auto' }}
           >
             <GlassTray accentColor={accentColor} borderRadius={32} style={{ padding: 24 }}>
               {/* Close */}
