@@ -4,7 +4,6 @@ import { Eye, EyeOff, ChevronDown, ChevronRight, Shield, Terminal, CheckCircle }
 import { useStore } from '../core/store.js'
 import { useShallow } from 'zustand/react/shallow'
 import { useI18n } from '../core/i18n/index.js'
-import { signInWithGoogle, ensureUserDoc } from '../core/firebase.js'
 import { getRolesByDepartment, ROLES } from '../core/roles.js'
 import { FrameFlowLogo } from '../components/shared/FrameFlowLogo.jsx'
 import styles from './LoginScreen.module.css'
@@ -46,6 +45,7 @@ export function LoginScreen() {
     setError('')
     setLoading(true)
     try {
+      const { signInWithGoogle } = await import('../core/firebase.js')
       const user = await signInWithGoogle()
       setGoogleUser(user)
     } catch (e) {
@@ -61,7 +61,9 @@ export function LoginScreen() {
     login(googleUser, roleId, role?.dept || null)
     const projectId = useStore.getState().currentProjectId
     if (projectId) {
-      ensureUserDoc(projectId, googleUser, roleId, role?.dept || null)
+      import('../core/firebase.js').then(({ ensureUserDoc }) => {
+        ensureUserDoc(projectId, googleUser, roleId, role?.dept || null)
+      })
     }
   }
 

@@ -13,12 +13,7 @@ export default defineConfig({
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react/jsx-runtime'],
           'vendor-motion': ['framer-motion'],
-          'vendor-firebase': [
-            'firebase/app',
-            'firebase/auth',
-            'firebase/firestore',
-          ],
-          'vendor-d3': ['d3'],
+'vendor-d3': ['d3'],
           'vendor-icons': ['lucide-react'],
           'vendor-mammoth': ['mammoth'],
           'vendor-utils': [

@@ -7,7 +7,6 @@ import { Check, AlertTriangle, Eye, EyeOff, CheckCircle } from 'lucide-react'
 import { useStore } from '../core/store.js'
 import { useShallow } from 'zustand/react/shallow'
 import { useI18n } from '../core/i18n/index.js'
-import { signInWithGoogle } from '../core/firebase.js'
 import { ROLES } from '../core/roles.js'
 import styles from './LoginScreen.module.css'
 import joinStyles from './JoinScreen.module.css'
@@ -38,6 +37,7 @@ export function JoinScreen({ token }) {
     setError('')
     setLoading(true)
     try {
+      const { signInWithGoogle } = await import('../core/firebase.js')
       const user = await signInWithGoogle()
       const result = useInvite(token, user)
       if (result.error) {
