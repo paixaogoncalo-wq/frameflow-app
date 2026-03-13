@@ -21,11 +21,14 @@ const DevSeed = lazy(() => import('./dev/DevSeed.jsx').then(m => ({ default: m.D
 
 export default function App() {
   useEffect(() => { initReactiveCore() }, [])
-  const {  auth, login, wallpaper  } = useStore(useShallow(s => ({ auth: s.auth, login: s.login, wallpaper: s.wallpaper })))
+  const {  auth, login, wallpaper, navigate  } = useStore(useShallow(s => ({ auth: s.auth, login: s.login, wallpaper: s.wallpaper, navigate: s.navigate })))
   const theme = auth.theme || 'dark'
 
   // ?seed → página de seed para desenvolvimento
   const isSeedMode = useMemo(() => new URLSearchParams(window.location.search).has('seed'), [])
+
+  // ?module=X → deep link from PWA shortcuts
+  const deepLinkModule = useMemo(() => new URLSearchParams(window.location.search).get('module'), [])
 
   // ?reset → limpa localStorage e recarrega
   // ?admin → auto-login como Super Admin
@@ -45,7 +48,12 @@ export default function App() {
       )
       window.history.replaceState({}, '', window.location.pathname)
     }
-  }, [])
+    // PWA shortcut deep link — navigate after auth
+    if (deepLinkModule && auth.isAuthenticated) {
+      navigate(deepLinkModule)
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [auth.isAuthenticated])
 
   // Auto-seed removed — use "Carregar Dados Demo" in Settings to seed manually
 

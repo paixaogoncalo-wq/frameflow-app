@@ -29,6 +29,7 @@ export function SearchInput({ value, onChange, placeholder = 'Pesquisar...', var
         value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
+        inputMode="search"
         style={{
           width: '100%', height: '100%', background: 'transparent', border: 'none',
           color: 'var(--text-primary)', fontSize: s.fontSize,

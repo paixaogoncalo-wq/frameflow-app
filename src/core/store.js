@@ -203,8 +203,9 @@ export const useStore = create(
       ui: {
         activeModule:    'dashboard',  // dashboard | universe | pre-production | ...
         activeSubModule: null,
-        sidebarOpen:     false,
-        activeDay:       null,
+        sidebarOpen:       false,
+        mobileSidebarOpen: false,
+        activeDay:         null,
         modals:          {},           // { [id]: boolean }
         notifications:   [],
         deepLinkSceneId: null,         // sceneId para deep-link no guião completo
@@ -428,6 +429,13 @@ export const useStore = create(
 
       toggleSidebar: () => set(state => ({
         ui: { ...state.ui, sidebarOpen: !state.ui.sidebarOpen },
+      })),
+
+      toggleMobileSidebar: () => set(state => ({
+        ui: { ...state.ui, mobileSidebarOpen: !state.ui.mobileSidebarOpen },
+      })),
+      closeMobileSidebar: () => set(state => ({
+        ui: { ...state.ui, mobileSidebarOpen: false },
       })),
 
       addNotification: (notification) => set(state => ({

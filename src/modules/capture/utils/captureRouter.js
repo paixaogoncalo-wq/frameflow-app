@@ -253,7 +253,6 @@ export async function routeCapture(capture, answers, store) {
         const budgets = store.budgets || []
         if (budgets.length > 0) {
           const activeBudget = budgets[0]
-          const addFn = store.addBudgetExpense || store.updateBudget
           if (store.addBudgetExpense) {
             store.addBudgetExpense(activeBudget.id, {
               id: `exp_${Date.now()}`,

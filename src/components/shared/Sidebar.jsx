@@ -67,9 +67,9 @@ const MENU = [
 ]
 
 export function Sidebar({ panelMode = 'management' }) {
-  const { ui, auth, navigate, toggleSidebar, projectName, setProjectName, wallpaper } = useStore(useShallow(s => ({ ui: s.ui, auth: s.auth, navigate: s.navigate, toggleSidebar: s.toggleSidebar, projectName: s.projectName, setProjectName: s.setProjectName, wallpaper: s.wallpaper })))
+  const { ui, auth, navigate, toggleSidebar, closeMobileSidebar, projectName, setProjectName, wallpaper } = useStore(useShallow(s => ({ ui: s.ui, auth: s.auth, navigate: s.navigate, toggleSidebar: s.toggleSidebar, closeMobileSidebar: s.closeMobileSidebar, projectName: s.projectName, setProjectName: s.setProjectName, wallpaper: s.wallpaper })))
   const { t } = useI18n()
-  const { sidebarOpen, activeModule } = ui
+  const { sidebarOpen, activeModule, mobileSidebarOpen } = ui
   const { role } = auth
   const [showInvites, setShowInvites] = useState(false)
   const isRoleView = panelMode === 'roleview'
@@ -100,9 +100,36 @@ export function Sidebar({ panelMode = 'management' }) {
 
   const wpActive = wallpaper?.type && wallpaper.type !== 'none'
 
+  // Close mobile sidebar when navigating
+  const handleNavigate = (id) => {
+    navigate(id)
+    closeMobileSidebar()
+  }
+
   return (
+    <>
+    {/* Mobile backdrop */}
+    <AnimatePresence>
+      {mobileSidebarOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={closeMobileSidebar}
+          style={{
+            display: 'none',
+            position: 'fixed', inset: 0, zIndex: 199,
+            background: 'rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
+          }}
+          className={styles.mobileBackdrop}
+        />
+      )}
+    </AnimatePresence>
     <motion.aside
-      className={styles.sidebar}
+      className={`${styles.sidebar} ${mobileSidebarOpen ? styles.sidebarMobileOpen : ''}`}
       data-glass
       animate={{ width: sidebarOpen ? 'var(--sidebar-width-open)' : 'var(--sidebar-width)' }}
       transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
@@ -171,7 +198,7 @@ export function Sidebar({ panelMode = 'management' }) {
                 <motion.button
                   className={`${styles.groupHeader} ${childActive ? styles.groupActive : ''}`}
                   style={{ '--item-color': item.color }}
-                  onClick={() => sidebarOpen ? toggleGroup(item.id) : navigate(item.children[0].id)}
+                  onClick={() => sidebarOpen ? toggleGroup(item.id) : handleNavigate(item.children[0].id)}
                   title={!sidebarOpen ? item.label : undefined}
                   whileHover={{ x: 2 }}
                   whileTap={{ scale: 0.97 }}
@@ -221,7 +248,7 @@ export function Sidebar({ panelMode = 'management' }) {
                           key={child.id}
                           className={`${styles.childItem} ${activeModule === child.id ? styles.childActive : ''}`}
                           style={{ '--item-color': item.color }}
-                          onClick={() => navigate(child.id)}
+                          onClick={() => handleNavigate(child.id)}
                           whileHover={{ x: 2 }}
                           whileTap={{ scale: 0.97 }}
                         >
@@ -248,7 +275,7 @@ export function Sidebar({ panelMode = 'management' }) {
               color={item.color}
               active={activeModule === item.id}
               open={sidebarOpen}
-              onClick={() => navigate(item.id)}
+              onClick={() => handleNavigate(item.id)}
               badge={item.badge}
             />
           )
@@ -264,7 +291,7 @@ export function Sidebar({ panelMode = 'management' }) {
           color="var(--text-muted)"
           active={activeModule === 'settings'}
           open={sidebarOpen}
-          onClick={() => navigate('settings')}
+          onClick={() => handleNavigate('settings')}
           small
         />
         {/* Invite manager — admins podem criar convites */}
@@ -285,6 +312,7 @@ export function Sidebar({ panelMode = 'management' }) {
       {/* Invite drawer */}
       <InviteManager open={showInvites} onClose={() => setShowInvites(false)} />
     </motion.aside>
+    </>
   )
 }
 

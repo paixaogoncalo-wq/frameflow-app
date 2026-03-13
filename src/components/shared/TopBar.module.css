@@ -297,9 +297,31 @@
   font-family: var(--font-body);
 }
 
+/* ── Hamburger — mobile only ─────────────────── */
+
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.hamburger:active { transform: scale(0.95); }
+
 /* ── Responsive ──────────────────────────────── */
 
 @media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
   .topbar {
     padding: 0 var(--space-3);
     height: 48px;

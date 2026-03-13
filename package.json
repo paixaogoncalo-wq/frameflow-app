@@ -55,6 +55,7 @@
     "globals": "^16.5.0",
     "playwright": "^1.58.2",
     "postcss": "^8.5.8",
+    "rollup-plugin-visualizer": "^7.0.1",
     "vite": "^7.3.1"
   }
 }

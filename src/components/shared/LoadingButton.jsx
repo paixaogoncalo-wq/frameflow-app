@@ -29,14 +29,16 @@ const SIZES = {
 
 export function LoadingButton({
   children, isLoading, loadingText, variant = 'primary', size = 'md',
-  disabled, style: sx, ...rest
+  disabled, style: sx, onClick, ...rest
 }) {
+  const handleClick = onClick ? (e) => { if (!isLoading && !disabled) navigator.vibrate?.(8); onClick(e) } : undefined
   const v = VARIANTS[variant] || VARIANTS.primary
   const s = SIZES[size] || SIZES.md
 
   return (
     <button
       disabled={isLoading || disabled}
+      onClick={handleClick}
       style={{
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         gap: s.gap, height: s.height, padding: `0 ${s.px}px`,

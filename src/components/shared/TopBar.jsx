@@ -2,7 +2,7 @@
 // Projecto · Saúde · Alertas · Pesquisa ⌘K · Notificações · User
 
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { Search, AlertTriangle, AlertCircle, Command } from 'lucide-react'
+import { Search, AlertTriangle, AlertCircle, Command, Menu } from 'lucide-react'
 import { useStore } from '../../core/store.js'
 import { useShallow } from 'zustand/react/shallow'
 import { ROLES } from '../../core/roles.js'
@@ -44,6 +44,7 @@ function getHealthStatus(shootingDays, team, locations, suggestions) {
 export function TopBar() {
   const {
     projectName, auth, team, locations, shootingDays, suggestions, navigate, ui,
+    toggleMobileSidebar,
   } = useStore(useShallow(s => ({
     projectName: s.projectName,
     auth: s.auth,
@@ -53,6 +54,7 @@ export function TopBar() {
     suggestions: s.suggestions,
     navigate: s.navigate,
     ui: s.ui,
+    toggleMobileSidebar: s.toggleMobileSidebar,
   })))
 
   const [cmdOpen, setCmdOpen] = useState(false)
@@ -79,6 +81,15 @@ export function TopBar() {
 
   return (
     <header className={styles.topbar}>
+      {/* Hamburger — mobile only */}
+      <button
+        className={styles.hamburger}
+        onClick={toggleMobileSidebar}
+        aria-label="Abrir menu"
+      >
+        <Menu size={20} />
+      </button>
+
       {/* Left: Project name + subtitle */}
       <div className={styles.left}>
         <div className={styles.projectBlock}>

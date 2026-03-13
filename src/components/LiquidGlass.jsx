@@ -265,6 +265,7 @@ const PILL_SIZES = {
 }
 
 export function PillButton({ children, variant = 'default', size = 'md', accentColor, onClick, disabled, style: sx, ...rest }) {
+  const handleClick = onClick ? (e) => { navigator.vibrate?.(8); onClick(e) } : undefined
   let v = PILL_VARIANTS[variant] || PILL_VARIANTS.default
   // FF07: accent/colored use accentColor prop
   if (accentColor && variant === 'accent') {
@@ -277,7 +278,7 @@ export function PillButton({ children, variant = 'default', size = 'md', accentC
 
   return (
     <motion.button
-      onClick={onClick}
+      onClick={handleClick}
       disabled={disabled}
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
@@ -300,7 +301,13 @@ export function PillButton({ children, variant = 'default', size = 'md', accentC
 }
 
 // ── LiquidInput — input com focus glow ──
-export const LiquidInput = forwardRef(function LiquidInput({ label, style: sx, ...rest }, ref) {
+export const LiquidInput = forwardRef(function LiquidInput({ label, type = 'text', style: sx, ...rest }, ref) {
+  const inputMode = rest.inputMode || (
+    type === 'number' ? 'numeric' :
+    type === 'email'  ? 'email'   :
+    type === 'tel'    ? 'tel'     :
+    type === 'url'    ? 'url'     : undefined
+  )
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {label && (
@@ -310,6 +317,8 @@ export const LiquidInput = forwardRef(function LiquidInput({ label, style: sx, .
       )}
       <input
         ref={ref}
+        type={type}
+        inputMode={inputMode}
         style={{
           height: 48, padding: '0 16px', borderRadius: 12,
           background: 'rgba(255,255,255,0.04)',
@@ -368,9 +377,10 @@ export function StatusBadge({ status, label, color: colorProp, pulse = false }) 
 
 // ── GlowButton ──
 export function GlowButton({ children, color = COLORS.emerald, onClick, style: sx, ...rest }) {
+  const handleClick = onClick ? (e) => { navigator.vibrate?.(8); onClick(e) } : undefined
   return (
     <motion.button
-      onClick={onClick}
+      onClick={handleClick}
       whileHover={{ scale: 1.05, boxShadow: `0 0 24px ${color}66` }}
       whileTap={{ scale: 0.95 }}
       transition={SPRING.subtle}
